@@ -1,0 +1,46 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+# Basic elements
+
+![](images/clipboard-3151764009.png)
+
+
+
+# Stratified Random Sampling
+
+- Logic 
+
+  - Imbalance in Categories
+  
+  
+
+## Defination
+
+
+
+## Stratification in Sampling
+
+
+
+
+
+## Selecting Auxiliary Variables for Stratification
+
+
+
+## Drawing Stratified Random Samples
+
+## Estimation of Population Means and Totals
+
+
+## Sample Size Allocation Rules
+
+
+## Estimating Population Proportions
+
+
+## Comparison with Simple Random Sampling 
