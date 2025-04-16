@@ -3,44 +3,178 @@ title: "Untitled"
 format: html
 editor: visual
 ---
+ 
 
 # Basic elements
 
 ![](images/clipboard-3151764009.png)
 
-
-
 # Stratified Random Sampling
 
-- Logic 
+-   Logic
 
-  - Imbalance in Categories
-  
-  
+  -   Imbalance in Categories
 
 ## Defination
 
-
+Dividing the population into several non- overlapping groups, called Strata
 
 ## Stratification in Sampling
 
+- Imbalance in Categories
+
+- A Partition of Sample Space
 
 
 
+
+![](images/clipboard-743022837.png)
 
 ## Selecting Auxiliary Variables for Stratification
-
-
 
 ## Drawing Stratified Random Samples
 
 ## Estimation of Population Means and Totals
 
-
 ## Sample Size Allocation Rules
-
 
 ## Estimating Population Proportions
 
+## Comparison with Simple Random Sampling
 
-## Comparison with Simple Random Sampling 
+
+
+# TTL
+
+5.19
+
+The investigator decides to stratify on months in the sampling inspection in order to observe month-to-month variation. Simple random samples of battery weights for the two month A and B are yielded.Estimate the average weight of the batteries in the population (shipment), and place a bound on the error of estimation. Ignore the fpc. The manufacturing standard for this type of battery is 65 pounds. Do you think this shipment meets the standard on the average? 
+
+
+
+
+$\bar y_A = 63.47$
+$\bar y_B = 64,3$
+
+$\bar y = (63.47+64.3)/2 = 63.885$
+
+$SD_A = \sqrt{\Sigma_{i=1}^{n}()}$
+
+$SD_B = \sqrt{\Sigma_{i=1}^{n}()}$
+
+
+
+The overall standard deviation (( s )) can be estimated using the formula for pooled standard deviation: $$s = \sqrt{\frac{(n_A - 1)s_A^2 + (n_B - 1)s_B^2}{n_A + n_B - 2}}$$ Where ( n_A = n_B = 6 )
+
+Step 5: Calculate the Margin of Error
+
+The margin of error (E) can be calculated using the formula: $$E = t_{\alpha/2} \cdot \frac{s}{\sqrt{n}}$$ Assuming a 95% confidence level and using ( $t \approx 2.262$ ) for ( n = 12 ): $$E = 2.262 \cdot \frac{1.087}{\sqrt{12}} \approx 2.262 \cdot 0.313 \approx 0.709$$
+
+Step 6: Confidence Interval for the Mean
+The confidence interval for the mean weight of the batteries is: $$\bar{x} \pm E = 67.215 \pm 0.709$$ This gives: $$(66.506, 67.924)$$
+
+Conclusion
+The estimated average weight of the batteries in the shipment is approximately 67.215 pounds, with a 95% confidence interval of (66.506, 67.924) pounds.
+
+Does the Shipment Meet the Standard?
+The manufacturing standard for this type of battery is 65 pounds. Since the entire confidence interval (66.506 to 67.924) is above 65 pounds, we can conclude that this shipment meets the manufacturing standard on average.
+
+
+
+
+5.20
+
+In Exercise 5.19, do you think stratifying on month is desirable, or would simple random sampling work just as well? Assume that taking a simple random sample is just as con- venient as taking a stratified random sample.
+
+
+Solution:
+
+see the photo on my phone, which just compared the variances of SRS and stratified sampling.
+
+
+5.21
+
+
+A quality control inspector must estimate the proportion of defective microcomputer chips coming from two different assembly operations. She knows that, among the chips in the lot to be inspected, 60% are from assembly operation A and 40% are from assem- bly operation B. In a random sample of 100 chips, 38 turn out to be from operation A and 62 from operation B. Among the sampled chips from operation A, six are defective. Among the sampled chips from operation B, ten are defective.
+
+
+a. Considering only the simple random sample of 100 chips,estimate the proportion of defectives in the lot, and place a bound on the error of estimation.
+
+Solution:
+
+
+1. Operation A : $\hat p_A = \frac{6}{38} \approx 0.1579$
+
+   Operation B : $\hat p_B = \frac{10}{62} \approx 0.1613$
+
+2. $W_A=0.6$
+
+   $W_B=0.4$
+   
+   Overall : $\hat p_{st} = W_A \cdot \hat p_A + W_B \cdot \hat p_B = 0.15926$
+   
+3. The standard error of the estimate can be calculated using the formula for the standard error of a proportion: $$SE = \sqrt{\frac{\hat p(1 - \hat p)}{n}}$$
+
+   Where ( $\hat p$ ) is the estimated proportion and ( n ) is the sample size.
+   
+   Overall: $SE_{st} = \sqrt{(W_A^2 \cdot SE_A^2) + (W_B^2 \cdot SE_B^2)} \approx 0.0401$
+   
+   95% CI: $\hat p_{st} \pm 1.96 \cdot SE_{st} = 0.15926 \pm 1.96 \cdot 0.0401$
+   
+
+
+
+
+
+
+
+b. Stratifying the sample, after selection, into chips from operation A and B, estimate the proportion of defectives in the population, and place a bound on the error of estimation. Ignore the fpc in both cases. Which answers do you find more acceptable?
+
+
+
+Poststratification is a method of stratifying a sample after it has been selected. In this case, the sample of 100 chips has already been selected, and we will now stratify it into chips from operation A and B.
+
+
+
+# Chap5 Sampling from Real Populations
+
+
+```{r}
+
+library(ggplot2)
+library(readxl)
+library(dplyr)
+
+
+USPOP <- read_excel("USPOP.XLS")
+summary(USPOP)
+table(USPOP$Section[-1])
+colnames(USPOP)
+USPOP1 <- USPOP[ ,-1] %>%
+  mutate(across(where(is.character), ~ as.numeric(gsub(",", "", .))))
+USPOP2 <- cbind(USPOP[,1],USPOP1)
+USPOP2$Youth <- USPOP2 [,4]
+sum(USPOP2$Youth[-1])
+sum(USPOP2$Youth[-1])==USPOP2$Youth[1] #False --so how could we do?
+
+sectionweight <- USPOP2 [-1, ] %>%
+ count(Section) # since the first row is the total
+
+# Method 1: Sample observations from each group
+
+stratified_sample1 <- USPOP2[-1, ] %>%
+  group_by(Section) %>%
+  slice_sample(prop = 0.25) # select 25% samples per group
+
+# view the stratified sample
+
+stratified_sample1
+table(stratified_sample1$Section)
+
+
+```
+
+
+
+
+
