@@ -4,6 +4,12 @@ format: html
 editor: visual
 ---
  
+https://www.csus.edu/indiv/j/jgehrman/courses/stat1/misc/intro0/0intro.htm#introrandomsamples
+
+# this makes me know everything relavent to even Survey Sampling
+
+
+https://www.csus.edu/indiv/j/jgehrman/courses/stat1/misc/samplingdist/6sampldist.htm
 
 # Basic elements
 
@@ -173,6 +179,10 @@ table(stratified_sample1$Section)
 
 
 ```
+
+
+
+# use uniform to generate Poisson Distribution
 
 
 
