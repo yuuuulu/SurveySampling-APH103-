@@ -3,6 +3,15 @@ title: "Untitled"
 format: html
 editor: visual
 ---
+
+```{r}
+qnorm(0.975, 0, 1)
+
+qnorm(0.95,0,1)
+
+
+```
+
  
 https://www.csus.edu/indiv/j/jgehrman/courses/stat1/misc/intro0/0intro.htm#introrandomsamples
 
@@ -47,6 +56,21 @@ Dividing the population into several non- overlapping groups, called Strata
 ## Estimating Population Proportions
 
 ## Comparison with Simple Random Sampling
+
+Different information is obtained from
+different Strata and each Stratum is studied
+independently.
+
+A good stratification results in
+a more accurate estimate than
+a simple random sampling.
+
+A proper stratification
+will reduce sampling
+error
+
+
+
 
 
 
@@ -183,6 +207,284 @@ table(stratified_sample1$Section)
 
 
 # use uniform to generate Poisson Distribution
+
+
+
+
+
+
+
+
+
+
+# 5.3 --a good example of showing why we use poststatification
+
+
+ The CARS93 data, in Appendix C, has cars classified as to being one of six different types, small, compact, midsize, large, sporty, or van. A numerical type code is given in the data set, in addition to the actual name of the type. The goal of this activity is to see if poststratification on car type pays any dividends when estimating average city gasoline mileage or proportion of cars with air bags for the cars in this population.
+ 
+ 
+a. Select a random sample of cars from this population. Estimate the average city miles per gallon (mpg) for these cars, with a bound on the error of estimation.
+
+
+b. Estimate the proportion of these cars that have at least one air bag, with a bound on the error of estimation.
+
+
+c. Using the data from part (a), poststratify on the car type and then estimate the average city mpg by this method.
+
+
+d. Using the data from part (b), poststratify on car type and then estimate the proportion of cars that have at least one air bag by this method.
+
+
+e. Comparing the above results, comment on when poststratification might produce big gains in terms of the error of estimation.
+
+## solution:
+
+- Problem
+
+Estimating: 
+
+ - average city mileage
+ 
+ - proportion of cars with air bags
+ 
+ via poststratification
+ 
+ - 2
+ 
+  - a. SRS
+  
+  $\bar y =1/n \sum y_i =21.04$
+
+  B = $Z_{\alpha/2}\cdot \sqrt{\hat {Var}(y) = 2\cdot s_i}=7.3$
+  
+  - b. 
+
+
+```{r}
+
+
+library(ggplot2)
+library(readxl)
+library(dplyr)
+
+
+CARS93 <- read_excel("CARS93.XLS")
+summary(CARS93)
+
+set.seed(2025)
+CARS93Sample1 <- CARS93 %>%
+  slice_sample(prop=0.25)
+CARS93Sample1
+n <- nrow(CARS93Sample1)
+
+mean(CARS93Sample1$MPGCITY)
+2*sd(CARS93Sample1$MPGCITY) #variance
+
+pairbags <- sum(CARS93Sample1$AIRBAGS>0)/n
+pairbags
+varp <- pairbags*(1-pairbags)/(n-1) # p(1-p)/(n-1)
+2*sqrt(varp)
+
+# poststratification on car type
+
+
+
+
+
+
+# Calculate weighted sum
+
+#MPGCITY
+
+MPGCITYPostmean <- sum (SumSratum$WStratum*SampleSumStratum$MP)
+
+
+
+
+
+#AIRBAGS
+
+Sample
+
+```
+
+
+# 5.6
+
+We now move from selecting samples from real sets of data to selecting samples from
+probability distributions. The probability distributions partially given in the following
+table represent the heights of adults in America. The complete set of data is available via
+a link from electronic Section 5.0. PROB-M denotes the probabilities of various heights
+(in inches) for males, PROB-F denotes the probabilities for females, and PROB denotes the
+combined probabilities for adults. The goal is to select samples from these distributions to
+compare estimates of the average height from stratified random sampling to estimates from
+simple random sampling
+
+a. Use the discrete distributions sampling tool (available via a link in electronic
+Section 5.0) to produce random samples from specified discrete distributions.
+
+
+b. Select a random sample of 20 male heights and a separate random sample of 20 female
+heights. From these data, estimate the average height of all adults and calculate a bound
+on the error of estimation. (Assume that approximately 50% of adults are male.)
+
+
+c. Select a simple random sample of 40 heights for the height distribution of adults.
+From these data, estimate the average height of all adults and calculate a bound on the
+error of estimation.
+
+
+d. Repeat steps (b) and (c) a number of times, so as to generate a sampling distribution
+of estimates in each case.
+
+
+e. Compare the results of (b) and (c). Comment on when stratification seems to produce
+gains in precision of estimates.
+
+
+
+
+
+
+```{r}
+install.packages("sample")
+
+library(sample)
+
+
+
+
+```
+
+
+
+
+
+
+
+
+# Systematic Sampling
+
+
+## Concept
+
+the first sample determines all the remaining sample points
+
+ - 
+
+ - 
+
+ - 
+
+1-in-k systematic sample 
+
+k is the sample interval
+
+### Eg
+
+Example 4.11 N=36, k=6
+
+
+SRS (n=1)
+
+i = 3
+
+i+k=9
+
+...
+
+
+i+5k=32 now we stop since N=36
+
+Conclusion: this is an alternative to simple random samples
+
+
+  - Advantage: 
+  
+   - Easy to implement
+   
+   
+   - Reducing researcher selection error
+   
+   - Systematic sampling allows more information to be obtained at the same cost
+   
+   - Can substitute for simple random samples in the absence of a complete sampling frame
+   
+   
+
+
+## Implementation of it
+
+### 1-k systematic samples can use different sampling intervals k
+
+
+1. Sample n systematic samples from N totals, 
+
+k ≤ N/n
+
+
+2. If the number of populations N is unknown and thus k cannot be found precisely, the researcher can decide on an approximate sample size n and guess the value of k.
+
+
+3. If the value of k i chosen to be too large, then it may not be possible to obtain a 1-k systematic sample with a sample size of n.
+
+
+4. The number of populations N is not a multiple f the sampling interval k, which can result in systematic samples with different sample sizes.
+
+## relationship between Systematic Sampling and Cluster Sampling
+
+no unbiased estimator -- do some verification
+
+
+
+
+
+
+
+### Stratified non-random sampling
+
+
+
+
+## Point estimate of the population mean
+
+
+$N =ML = \hat{\bar Y}=\bar y_{sy} = 1/L \sum_{i=1}^L y_i$
+
+
+
+
+follow the idea of simple random sampling
+
+
+
+
+## modified systematic sampling
+
+
+
+
+Guaranteed unbiased estimates
+
+
+Requires known population size N
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
